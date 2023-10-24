@@ -145,7 +145,9 @@ class HomeController extends GetxController {
         },
         success: (response){
           _stateStatusRx.value = StateStatus.SUCCESS;
+          Get.back();
           Get.showSuccessSnackbar("Call Added Successfully");
+          getCallApi();
         },
         error: (e){
           _stateStatusRx.value = StateStatus.FAILURE;

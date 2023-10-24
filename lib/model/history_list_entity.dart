@@ -4,9 +4,13 @@
 
 import 'dart:convert';
 
-HistoryListEntity historyListEntityFromJson(String str) => HistoryListEntity.fromJson(json.decode(str));
+import 'package:get/get.dart';
 
-String historyListEntityToJson(HistoryListEntity data) => json.encode(data.toJson());
+HistoryListEntity historyListEntityFromJson(String str) =>
+    HistoryListEntity.fromJson(json.decode(str));
+
+String historyListEntityToJson(HistoryListEntity data) =>
+    json.encode(data.toJson());
 
 class HistoryListEntity {
   bool? success;
@@ -21,19 +25,20 @@ class HistoryListEntity {
     this.statusCode,
   });
 
-  factory HistoryListEntity.fromJson(Map<String, dynamic> json) => HistoryListEntity(
-    success: json["success"],
-    message: json["message"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-    statusCode: json["status_code"],
-  );
+  factory HistoryListEntity.fromJson(Map<String, dynamic> json) =>
+      HistoryListEntity(
+        success: json["success"],
+        message: json["message"],
+        data: json["data"] == <String,dynamic>{} ? [] : Datum.fromJsonArray(json["data"]),
+        statusCode: json["status_code"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    "message": message,
-    "data": List<dynamic>.from(data!.map((x) => x.toJson())),
-    "status_code": statusCode,
-  };
+        "success": success,
+        "message": message,
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
+        "status_code": statusCode,
+      };
 }
 
 class Datum {
@@ -52,18 +57,31 @@ class Datum {
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    callManagerId: json["call_manager_id"],
-    date: json["date"],
-    nextDate: json["next_date"],
-    shortDetails: json["short_details"],
-    ourRemarks: json["our_remarks"],
-  );
+        callManagerId: json["call_manager_id"],
+        date: json["date"],
+        nextDate: json["next_date"],
+        shortDetails: json["short_details"],
+        ourRemarks: json["our_remarks"],
+      );
+
+  static fromJsonArray(dynamic map) {
+    print({}.runtimeType);
+    List<Datum> list = [];
+    if (map.runtimeType == <String,dynamic>{}.runtimeType) {
+        return null;
+        } else {
+      for (var element in map) {
+        list.add(Datum.fromJson(element));
+      }
+    }
+    return list;
+  }
 
   Map<String, dynamic> toJson() => {
-    "call_manager_id": callManagerId,
-    "date": date,
-    "next_date": nextDate,
-    "short_details": shortDetails,
-    "our_remarks": ourRemarks,
-  };
+        "call_manager_id": callManagerId,
+        "date": date,
+        "next_date": nextDate,
+        "short_details": shortDetails,
+        "our_remarks": ourRemarks,
+      };
 }

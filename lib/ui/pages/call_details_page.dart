@@ -41,17 +41,13 @@ class CallDetailsPage extends GetView<CallDetailsController> {
                           Colors.black,
                           20,
                           FontWeight.bold),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10),
                       text(
                           "Date: ${HomeController.to.testimonialData.data![controller.i.toInt()].date!}",
                           Colors.black,
                           20,
                           FontWeight.bold),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10),
                       text(
                           "Call For: ${HomeController.to.testimonialData.data![controller.i.toInt()].callFor}",
                           Colors.black,
@@ -105,11 +101,15 @@ class CallDetailsPage extends GetView<CallDetailsController> {
                           Colors.black,
                           20,
                           FontWeight.bold),
+                      const SizedBox(height: 10),
+                      text(
+                          "Manager status: ${HomeController.to.testimonialData.data![controller.i.toInt()].managerStatus ?? ""}",
+                          Colors.black,
+                          20,
+                          FontWeight.bold),
                       const SizedBox(
                         height: 10,
                       ),
-                      text("Manager status: ${HomeController.to.testimonialData.data![controller.i.toInt()].managerStatus!}", Colors.black, 20, FontWeight.bold),
-                      const SizedBox(height: 10,),
                     ],
                   ),
                 ),
@@ -128,7 +128,14 @@ class CallDetailsPage extends GetView<CallDetailsController> {
                 height: 20,
               ),
               Obx(() => controller.stateStatus.obs == StateStatus.SUCCESS.obs
-                  ? ListView.builder(
+                  ? controller.historyListData.data?.isEmpty == true &&
+                              controller.stateStatus.obs ==
+                                  StateStatus.SUCCESS.obs ||
+                          controller.historyListData.data == null
+                      ?  Center(
+                          child: text(
+                              'No Calls', Colors.white, 20, FontWeight.bold),
+                        ) : ListView.builder(
                       itemCount: controller.historyListData.data?.length,
                       shrinkWrap: true,
                       reverse: true,
@@ -184,14 +191,7 @@ class CallDetailsPage extends GetView<CallDetailsController> {
                           ),
                         );
                       })
-                  : controller.historyListData.data?.isEmpty == true &&
-                              controller.stateStatus.obs ==
-                                  StateStatus.SUCCESS.obs ||
-                          controller.historyListData.data == null
-                      ? Center(
-                          child: text(
-                              'No Calls', Colors.white, 20, FontWeight.bold),
-                        )
+                  
                       : const Center(
                           child: CircularProgressIndicator(),
                         )),

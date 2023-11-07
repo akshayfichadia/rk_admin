@@ -47,6 +47,9 @@ dependencies:
   http:
   connectivity_plus:
   call_log:
+  firebase_core:
+  firebase_messaging:
+  flutter_local_notifications: ^15.1.0+1
 
 
 

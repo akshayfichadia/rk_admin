@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rk_admin/resource/extension.dart';
@@ -39,8 +40,9 @@ class LoginController extends GetxController {
   //   password.dispose();
   // }
 
-
-  void loginApiCall() {
+  final firebaseMessaging = FirebaseMessaging.instance;
+  void loginApiCall() async {
+    final fCMToken = await firebaseMessaging.getToken();
     // _networkInfo.isConnected().then((value) async {
     //   if (value) {
         _stateStatusRx.value = StateStatus.LOADING;
@@ -50,7 +52,8 @@ class LoginController extends GetxController {
         // }
         _apiRepository.postApi(loginApi, queryParameters: {
           "email": mobileNumber.text.toString(),
-          "password": password.text.toString()
+          "password": password.text.toString(),
+          "device_token": "${fCMToken}"
         }, headers: {
           'X-Authorization': 'ixvAdaTLLftJmf3CUhp7BbREZy8ADJ'
         }, success: (response) async {

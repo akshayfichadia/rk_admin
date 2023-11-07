@@ -46,6 +46,7 @@ dependencies:
   flutter_svg:
   http:
   connectivity_plus:
+  call_log:
 
 
 

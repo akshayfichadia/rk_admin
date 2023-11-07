@@ -10,11 +10,38 @@ import 'package:rk_admin/route/route.dart';
 import 'package:rk_admin/shared/api_repository.dart';
 import 'package:rk_admin/shared/common/state_status.dart';
 import 'package:rk_admin/shared/get_storage_repository.dart';
-
+import 'package:call_log/call_log.dart';
 
 
 
 class HomeController extends GetxController {
+
+  // IMPORT PACKAGE
+
+
+// GET WHOLE CALL LOG
+
+
+// QUERY CALL LOG (ALL PARAMS ARE OPTIONAL)
+
+   GetCall() async {
+     var now = DateTime.now();
+     int from = now.subtract(Duration(days: 30)).millisecondsSinceEpoch;
+     int to = now.subtract(Duration(days: 60)).millisecondsSinceEpoch;
+     Iterable<CallLogEntry> entries = await CallLog.query(
+       // dateFrom: from,
+       // dateTo: to,
+       durationFrom: 0,
+       durationTo: 60,
+
+       //type: CallType.,
+     );
+     print(entries.length);
+     for(int i = 0;i<entries.length;i++){
+       print(entries.toList()[i].name);
+     }
+   }
+
 
   final GetStorageRepository _getStorageRepository;
   final ApiRepository _apiRepository;
@@ -25,10 +52,12 @@ class HomeController extends GetxController {
 
   String name = '';
   @override
-  void onInit() {
+  void onInit() async {
+    Iterable<CallLogEntry> entries = await CallLog.get();
     super.onInit();
     name = _getStorageRepository.read(userNameSession);
     getCallApi();
+    GetCall();
   }
 
   static HomeController get to => Get.find();

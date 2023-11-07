@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:rk_admin/model/call_list_entity.dart';
+import 'package:rk_admin/model/call_log_list.dart';
 import 'package:rk_admin/resource/api_collection.dart';
 import 'package:rk_admin/resource/extension.dart';
 import 'package:rk_admin/resource/extensions.dart';
@@ -10,25 +11,110 @@ import 'package:rk_admin/route/route.dart';
 import 'package:rk_admin/shared/api_repository.dart';
 import 'package:rk_admin/shared/common/state_status.dart';
 import 'package:rk_admin/shared/get_storage_repository.dart';
-
-
-
+import 'package:call_log/call_log.dart';
 
 class HomeController extends GetxController {
+  // IMPORT PACKAGE
+
+// GET WHOLE CALL LOG
+
+// QUERY CALL LOG (ALL PARAMS ARE OPTIONAL)
+  RxList<Map<String, String>> callLogList = RxList<Map<String, String>>();
+  Rx<Map<String, String>?> selectedContact = Rx<Map<String, String>>({});
+
+  void setSelectedContact(Map<String, String>? contact) {
+    selectedContact.value = contact;
+  }
+
+  String getCallName() {
+    return selectedContact.value!['name'] ?? "";
+  }
+
+  String getCallNumber() {
+    return selectedContact.value!['number'] ?? "";
+  }
+
+  getCall() async {
+    Iterable<CallLogEntry> entries = await CallLog.query(
+      durationFrom: 0,
+      durationTo: 50,
+    );
+    print(entries.length);
+    for (int i = 0; i < entries.length; i++) {
+      String? name = entries.toList()[i].name;
+      String? number = entries.toList()[i].number;
+      Map<String, String> callInfo = {
+        'name': name ?? "",
+        'number': number!,
+      };
+      callLogList.add(callInfo);
+      selectedContact.value = callLogList.first;
+      print("callloglist => $callLogList");
+    }
+    print("length ${entries.length}");
+  }
 
   final GetStorageRepository _getStorageRepository;
   final ApiRepository _apiRepository;
-  HomeController(this._getStorageRepository,this._apiRepository);
+  HomeController(this._getStorageRepository, this._apiRepository);
 
   final _stateStatusRx = Rx<StateStatus>(StateStatus.INITIAL);
   StateStatus get stateStatus => _stateStatusRx.value;
 
   String name = '';
   @override
-  void onInit() {
+  void onInit() async {
+    Iterable<CallLogEntry> entries = await CallLog.get();
     super.onInit();
     name = _getStorageRepository.read(userNameSession);
     getCallApi();
+    getCall();
+  }
+
+  TextEditingController dateController = TextEditingController();
+
+  chooseDate() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: Get.context!,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2030),
+      helpText: "Select Date",
+      cancelText: "Close",
+      confirmText: "Confirm",
+      errorFormatText: "Enter valid date",
+      errorInvalidText: "Enter valid date Range",
+      fieldLabelText: "Enter Date",
+      fieldHintText: "Month/Date/Year",
+      selectableDayPredicate: disableDate,
+    );
+    if (pickedDate != null) {
+      dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+    }
+  }
+
+  bool disableDate(DateTime day) {
+    if ((day.isAfter(DateTime.now().subtract(const Duration(days: 1))) &&
+        day.isBefore(DateTime.now().add(const Duration(days: 365))))) {
+      return true;
+    }
+    return false;
+  }
+
+  TextEditingController timeController = TextEditingController();
+  chooseTime() async {
+    TimeOfDay? pickedTime = await showTimePicker(
+      context: Get.context!,
+      initialTime: TimeOfDay.now(),
+      initialEntryMode: TimePickerEntryMode.dial,
+    );
+    if (pickedTime != null) {
+      final now = DateTime.now();
+      final dt = DateTime(
+          now.year, now.month, now.day, pickedTime.hour, pickedTime.minute);
+      timeController.text = DateFormat.Hm().format(dt).toString();
+      print("dateInputController => ${timeController.text}");
+    }
   }
 
   static HomeController get to => Get.find();
@@ -36,23 +122,20 @@ class HomeController extends GetxController {
   final _callListDataRx = Rx<CallListEntity>(CallListEntity());
   CallListEntity get testimonialData => _callListDataRx.value;
 
-  getCallApi(){
+  getCallApi() {
     _stateStatusRx.value = StateStatus.LOADING;
-    _apiRepository.getApi(callListApi,
-        headers: {'X-Authorization': 'ixvAdaTLLftJmf3CUhp7BbREZy8ADJ'},
-        queryParameters: {
-         "admin_id" : _getStorageRepository.read(userIdSession).toString()
-        },
-        success: (response) async {
-          _callListDataRx.value =
-          await CallListEntity.fromJson(response);
-          _stateStatusRx.value = StateStatus.SUCCESS;
-        }, error: (e) {
+    _apiRepository.getApi(callListApi, headers: {
+      'X-Authorization': 'ixvAdaTLLftJmf3CUhp7BbREZy8ADJ'
+    }, queryParameters: {
+      "admin_id": _getStorageRepository.read(userIdSession).toString()
+    }, success: (response) async {
+      _callListDataRx.value = await CallListEntity.fromJson(response);
+      _stateStatusRx.value = StateStatus.SUCCESS;
+    }, error: (e) {
+      _stateStatusRx.value = StateStatus.FAILURE;
 
-            _stateStatusRx.value = StateStatus.FAILURE;
-
-          Get.showErrorSnackbar(e!.message);
-        });
+      Get.showErrorSnackbar(e!.message);
+    });
   }
 
   TextEditingController receivedController = TextEditingController();
@@ -65,7 +148,14 @@ class HomeController extends GetxController {
   TextEditingController shortBriefController = TextEditingController();
   TextEditingController remarksController = TextEditingController();
 
-  var callForListRx = Rx<List<String>>(['First Time New Case Inquiry','Repeat Call For New Case Inquiry','Running Case Related Call','Appointment Related Call','Formal Call','Others']);
+  var callForListRx = Rx<List<String>>([
+    'First Time New Case Inquiry',
+    'Repeat Call For New Case Inquiry',
+    'Running Case Related Call',
+    'Appointment Related Call',
+    'Formal Call',
+    'Others'
+  ]);
   RxString selectedCallFor = "First Time New Case Inquiry".obs;
   RxString finalSelectedCallFor = ''.obs;
 
@@ -73,33 +163,33 @@ class HomeController extends GetxController {
 
   onSelectedApplyingFor(value) {
     selectedCallFor.value = value;
-    if(value == 'First Time New Case Inquiry'){
+    if (value == 'First Time New Case Inquiry') {
       finalSelectedCallFor.value = 'first_time_new_case_inquiry';
-    }else if(value == 'Repeat Call For New Case Inquiry'){
+    } else if (value == 'Repeat Call For New Case Inquiry') {
       finalSelectedCallFor.value = 'repeat_call_for_new_case_inquiry';
-    }else if(value == 'Running Case Related Call'){
+    } else if (value == 'Running Case Related Call') {
       finalSelectedCallFor.value = 'running_case_related_call';
-    }else if(value == 'Appointment Related Call'){
+    } else if (value == 'Appointment Related Call') {
       finalSelectedCallFor.value = 'appointment_related_call';
-    }else if(value == 'Formal Call'){
+    } else if (value == 'Formal Call') {
       finalSelectedCallFor.value = 'formal_call';
-    }else{
+    } else {
       finalSelectedCallFor.value = 'others';
     }
     print(finalSelectedCallFor.value.toString());
   }
 
-  var statusListRx = Rx<List<String>>(['Pending','Running','Completed']);
+  var statusListRx = Rx<List<String>>(['Pending', 'Running', 'Completed']);
   RxString selectedStatus = "Pending".obs;
   RxString finalSelectedStatus = ''.obs;
 
   onSelectedStatus(value) {
     selectedStatus.value = value;
-    if(value == 'Pending'){
+    if (value == 'Pending') {
       finalSelectedStatus.value = 'pending';
-    }else if(value == 'Running'){
+    } else if (value == 'Running') {
       finalSelectedStatus.value = 'running';
-    }else{
+    } else {
       finalSelectedStatus.value = 'completed';
     }
     print(finalSelectedStatus.value.toString());
@@ -117,49 +207,45 @@ class HomeController extends GetxController {
         lastDate: DateTime(2025));
     if (picked != null && picked != selectedDate) selectedDate = picked;
     date.value = DateFormat('yyyy-MM-dd').format(selectedDate);
-
-
   }
+
   void SubmitCall() {
     _stateStatusRx.value = StateStatus.LOADING;
-    _apiRepository.postApi(
-        'https://rklawfirm.in/new/api/v1/save/call-manager',
-        headers: {
-          'X-Authorization': 'ixvAdaTLLftJmf3CUhp7BbREZy8ADJ',
-          'Accept': 'application/json',
-        },
-        data: {
-          'admin_id': _getStorageRepository.read(userIdSession).toString(),
-          'date': date.value.toString(),
-          'received_by': _getStorageRepository.read(userNameSession).toString(),
-          'short_order': shortController.text,
-          'call_for': finalSelectedCallFor.value.toString(),
-          'name': nameController.text,
-          'company_name': companyController.text,
-          'city': cityController.text,
-          'mobile_no': mobileController.text,
-          'reference_by': referenceController.text,
-          'short_brief': shortBriefController.text,
-          'remarks': remarksController.text,
-          'status': finalSelectedStatus.value.toString()
-        },
-        success: (response){
-          _stateStatusRx.value = StateStatus.SUCCESS;
-          Get.back();
-          Get.showSuccessSnackbar("Call Added Successfully");
-          getCallApi();
-        },
-        error: (e){
-          _stateStatusRx.value = StateStatus.FAILURE;
-          Get.showErrorSnackbar(e!.message);
-        });
+    _apiRepository
+        .postApi('https://rklawfirm.in/new/api/v1/save/call-manager', headers: {
+      'X-Authorization': 'ixvAdaTLLftJmf3CUhp7BbREZy8ADJ',
+      'Accept': 'application/json',
+    }, data: {
+      'admin_id': _getStorageRepository.read(userIdSession).toString(),
+      'date': date.value.toString(),
+      'received_by': _getStorageRepository.read(userNameSession).toString(),
+      'short_order': shortController.text,
+      'call_for': finalSelectedCallFor.value.toString(),
+      'name': getCallName(),
+      'company_name': companyController.text,
+      'city': cityController.text,
+      'mobile_no': getCallNumber(),
+      'reference_by': referenceController.text,
+      'short_brief': shortBriefController.text,
+      'remarks': remarksController.text,
+      'status': finalSelectedStatus.value.toString(),
+      'next_reminder_date': dateController.text,
+      'next_reminder_time': timeController.text,
+    }, success: (response) {
+      _stateStatusRx.value = StateStatus.SUCCESS;
+      Get.back();
+      Get.showSuccessSnackbar("Call Added Successfully");
+      getCallApi();
+    }, error: (e) {
+      _stateStatusRx.value = StateStatus.FAILURE;
+      Get.showErrorSnackbar(e!.message);
+    });
   }
 
-  void LogOut(){
+  void LogOut() {
     _getStorageRepository.erase();
     Get.offNamed(AppRoute.login);
   }
-
 
   var interviewKey = GlobalKey<FormState>();
 
@@ -174,7 +260,7 @@ class HomeController extends GetxController {
   editValidate() {
     switch (interviewKey.currentState!.validate()) {
       case true:
-        if(date.value != '15 Augustus 1999'){
+        if (date.value != '15 Augustus 1999') {
           interviewKey.currentState!.save();
           SubmitCall();
         }
@@ -184,5 +270,4 @@ class HomeController extends GetxController {
         break;
     }
   }
-
 }

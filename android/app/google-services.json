@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "981428361861",
+    "project_id": "rk-law-mobile-app",
+    "storage_bucket": "rk-law-mobile-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981428361861:android:cc15e6709fc69fb495a7ec",
+        "android_client_info": {
+          "package_name": "com.app.rklawfirm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "981428361861-hh5mv1g721pntcntihroj4487fkf3jtq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBelpHkbITAeP0i0izzN1TG3GWIZOqA3XU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "981428361861-hh5mv1g721pntcntihroj4487fkf3jtq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "981428361861-elaupgb71mg8drdrfbqink5m0fe8f1c9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.rklawfirm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981428361861:android:9aeb44c072c729cf95a7ec",
+        "android_client_info": {
+          "package_name": "com.rkadmin.rk_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "981428361861-hh5mv1g721pntcntihroj4487fkf3jtq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBelpHkbITAeP0i0izzN1TG3GWIZOqA3XU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "981428361861-hh5mv1g721pntcntihroj4487fkf3jtq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "981428361861-elaupgb71mg8drdrfbqink5m0fe8f1c9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.rklawfirm"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

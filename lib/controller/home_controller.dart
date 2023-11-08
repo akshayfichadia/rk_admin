@@ -34,10 +34,14 @@ class HomeController extends GetxController {
     return selectedContact.value!['number'] ?? "";
   }
 
+  int fromDate =
+      DateTime.now().subtract(Duration(days: 2)).millisecondsSinceEpoch;
+  int toDate = DateTime.now().millisecondsSinceEpoch;
+
   getCall() async {
     Iterable<CallLogEntry> entries = await CallLog.query(
-      durationFrom: 0,
-      durationTo: 5,
+      dateFrom: fromDate,
+      dateTo: toDate,
     );
     print(entries.length);
     for (int i = 0; i < entries.length; i++) {
@@ -50,8 +54,8 @@ class HomeController extends GetxController {
       callLogList.add(callInfo);
       selectedContact.value = callLogList.first;
       print("callloglist => $callLogList");
+      print("callloglist length => ${callLogList.length}");
     }
-    print("length => ${entries.length}");
   }
 
   final GetStorageRepository _getStorageRepository;
@@ -67,6 +71,7 @@ class HomeController extends GetxController {
     Iterable<CallLogEntry> entries = await CallLog.get();
     super.onInit();
     name = _getStorageRepository.read(userNameSession);
+
     getCallApi();
     getCall();
   }
@@ -157,7 +162,7 @@ class HomeController extends GetxController {
     'Others'
   ]);
   RxString selectedCallFor = "First Time New Case Inquiry".obs;
-  RxString finalSelectedCallFor = ''.obs;
+  RxString finalSelectedCallFor = 'first_time_new_case_inquiry'.obs;
 
   // first_time_new_case_inquiry, repeat_call_for_new_case_inquiry , running_case_related_call , appointment_related_call , formal_call , others (You must type this lowercase and using underscore)
 
@@ -181,7 +186,7 @@ class HomeController extends GetxController {
 
   var statusListRx = Rx<List<String>>(['Pending', 'Running', 'Completed']);
   RxString selectedStatus = "Pending".obs;
-  RxString finalSelectedStatus = ''.obs;
+  RxString finalSelectedStatus = 'pending'.obs;
 
   onSelectedStatus(value) {
     selectedStatus.value = value;

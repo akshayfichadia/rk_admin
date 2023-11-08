@@ -59,6 +59,8 @@ class HomePage extends GetView<HomeController> {
                       physics: NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       itemBuilder: (context, index) {
+                        print(
+                            "controller.testimonialData.data!.length => ${controller.testimonialData.data!.length}");
                         int i = index;
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10),
@@ -99,7 +101,7 @@ class HomePage extends GetView<HomeController> {
                                     text(
                                         controller.testimonialData.data![index]
                                             .callFor
-                                            .toString()!,
+                                            .toString(),
                                         Colors.black,
                                         20,
                                         FontWeight.bold),

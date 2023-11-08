@@ -92,7 +92,11 @@ class AddCallPage extends GetView<HomeController> {
                                   .toList()[0]
                               : controller.selectedCallFor.value,
                           onChanged: (newValue) {
+                            print(
+                                "selectedCallFor before select=> ${controller.selectedCallFor.value}");
                             controller.onSelectedApplyingFor(newValue);
+                            print(
+                                "selectedCallFor.value after select=> ${controller.selectedCallFor.value}");
                           },
                           underline: const SizedBox(),
                           items: controller.callForListRx.value

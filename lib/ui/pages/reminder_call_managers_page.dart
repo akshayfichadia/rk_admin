@@ -72,7 +72,13 @@ class ReminderCallManagersPage extends GetView<ReminderCallMAnagersController> {
                                                 FontWeight.normal),
                                             const SizedBox(height: 10),
                                             text(
-                                                "Date & Time: ${data.nextReminderDateTime}",
+                                                "Date : ${data.nextReminderDate}",
+                                                Colors.black,
+                                                16,
+                                                FontWeight.normal),
+                                            const SizedBox(height: 10),
+                                            text(
+                                                "Time : ${data.nextReminderTime}",
                                                 Colors.black,
                                                 16,
                                                 FontWeight.normal),

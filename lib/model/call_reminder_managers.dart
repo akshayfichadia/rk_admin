@@ -35,21 +35,25 @@ class Data {
   String? type;
   String? callManagerName;
   String? mobileNumber;
-  String? nextReminderDateTime;
+  String? nextReminderDate;
+  String? nextReminderTime;
 
-  Data(
-      {this.id,
-      this.type,
-      this.callManagerName,
-      this.mobileNumber,
-      this.nextReminderDateTime});
+  Data({
+    this.id,
+    this.type,
+    this.callManagerName,
+    this.mobileNumber,
+    this.nextReminderDate,
+    this.nextReminderTime,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     type = json['type'];
     callManagerName = json['call_manager_name'];
     mobileNumber = json['mobile_number'];
-    nextReminderDateTime = json['next_reminder_date_time'];
+    nextReminderDate = json['next_reminder_date'];
+    nextReminderTime = json['next_reminder_time'];
   }
 
   Map<String, dynamic> toJson() {
@@ -58,7 +62,8 @@ class Data {
     data['type'] = this.type;
     data['call_manager_name'] = this.callManagerName;
     data['mobile_number'] = this.mobileNumber;
-    data['next_reminder_date_time'] = this.nextReminderDateTime;
+    data['next_reminder_date'] = this.nextReminderDate;
+    data['next_reminder_time'] = this.nextReminderTime;
     return data;
   }
 }

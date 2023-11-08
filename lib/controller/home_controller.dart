@@ -37,7 +37,7 @@ class HomeController extends GetxController {
   getCall() async {
     Iterable<CallLogEntry> entries = await CallLog.query(
       durationFrom: 0,
-      durationTo: 50,
+      durationTo: 5,
     );
     print(entries.length);
     for (int i = 0; i < entries.length; i++) {
@@ -51,7 +51,7 @@ class HomeController extends GetxController {
       selectedContact.value = callLogList.first;
       print("callloglist => $callLogList");
     }
-    print("length ${entries.length}");
+    print("length => ${entries.length}");
   }
 
   final GetStorageRepository _getStorageRepository;
@@ -72,7 +72,6 @@ class HomeController extends GetxController {
   }
 
   TextEditingController dateController = TextEditingController();
-
   chooseDate() async {
     DateTime? pickedDate = await showDatePicker(
       context: Get.context!,
@@ -90,6 +89,7 @@ class HomeController extends GetxController {
     );
     if (pickedDate != null) {
       dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+      print("dateController => ${dateController.text}");
     }
   }
 
@@ -113,7 +113,7 @@ class HomeController extends GetxController {
       final dt = DateTime(
           now.year, now.month, now.day, pickedTime.hour, pickedTime.minute);
       timeController.text = DateFormat.Hm().format(dt).toString();
-      print("dateInputController => ${timeController.text}");
+      print("timeController => ${timeController.text}");
     }
   }
 

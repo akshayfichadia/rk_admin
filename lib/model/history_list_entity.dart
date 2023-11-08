@@ -29,7 +29,9 @@ class HistoryListEntity {
       HistoryListEntity(
         success: json["success"],
         message: json["message"],
-        data: json["data"] == <String,dynamic>{} ? [] : Datum.fromJsonArray(json["data"]),
+        data: json["data"] == <String, dynamic>{}
+            ? []
+            : Datum.fromJsonArray(json["data"]),
         statusCode: json["status_code"],
       );
 
@@ -47,6 +49,8 @@ class Datum {
   String? nextDate;
   String? shortDetails;
   String? ourRemarks;
+  String? nextReminderDate;
+  String? nextReminderTime;
 
   Datum({
     this.callManagerId,
@@ -54,6 +58,8 @@ class Datum {
     this.nextDate,
     this.shortDetails,
     this.ourRemarks,
+    this.nextReminderDate,
+    this.nextReminderTime,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -62,14 +68,16 @@ class Datum {
         nextDate: json["next_date"],
         shortDetails: json["short_details"],
         ourRemarks: json["our_remarks"],
+        nextReminderDate: json["next_reminder_date"],
+        nextReminderTime: json["next_reminder_time"],
       );
 
   static fromJsonArray(dynamic map) {
     print({}.runtimeType);
     List<Datum> list = [];
-    if (map.runtimeType == <String,dynamic>{}.runtimeType) {
-        return null;
-        } else {
+    if (map.runtimeType == <String, dynamic>{}.runtimeType) {
+      return null;
+    } else {
       for (var element in map) {
         list.add(Datum.fromJson(element));
       }
@@ -83,5 +91,7 @@ class Datum {
         "next_date": nextDate,
         "short_details": shortDetails,
         "our_remarks": ourRemarks,
+        "next_reminder_date": nextReminderDate,
+        "next_reminder_time": nextReminderTime,
       };
 }

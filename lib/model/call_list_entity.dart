@@ -4,7 +4,8 @@
 
 import 'dart:convert';
 
-CallListEntity callListEntityFromJson(String str) => CallListEntity.fromJson(json.decode(str));
+CallListEntity callListEntityFromJson(String str) =>
+    CallListEntity.fromJson(json.decode(str));
 
 String callListEntityToJson(CallListEntity data) => json.encode(data.toJson());
 
@@ -22,18 +23,18 @@ class CallListEntity {
   });
 
   factory CallListEntity.fromJson(Map<String, dynamic> json) => CallListEntity(
-    success: json["success"],
-    message: json["message"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-    statusCode: json["status_code"],
-  );
+        success: json["success"],
+        message: json["message"],
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        statusCode: json["status_code"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    "message": message,
-    "data": List<dynamic>.from(data!.map((x) => x.toJson())),
-    "status_code": statusCode,
-  };
+        "success": success,
+        "message": message,
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
+        "status_code": statusCode,
+      };
 }
 
 class Datum {
@@ -52,6 +53,8 @@ class Datum {
   String? ourRemarks;
   ManagerStatus? managerStatus;
   String? createdBy;
+  String? nextReminderDate;
+  String? nextReminderTime;
 
   Datum({
     this.id,
@@ -69,60 +72,59 @@ class Datum {
     this.ourRemarks,
     this.managerStatus,
     this.createdBy,
+    this.nextReminderDate,
+    this.nextReminderTime,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    id: json["id"],
-    no: json["no"],
-    date: json["date"],
-    receivedBy: json["received_by"],
-    shortOrder: json["short_order"],
-    callFor: callForValues.map[json["call_for"]],
-    name: json["name"],
-    companyName: json["company_name"],
-    city: json["city"],
-    mobileNo: json["mobile_no"],
-    referanceBy: json["referance_by"],
-    shortBrief: json["short_brief"],
-    ourRemarks: json["our_remarks"],
-    managerStatus: managerStatusValues.map[json["manager_status"]],
-    createdBy: json["created by"],
-  );
+        id: json["id"],
+        no: json["no"],
+        date: json["date"],
+        receivedBy: json["received_by"],
+        shortOrder: json["short_order"],
+        callFor: callForValues.map[json["call_for"]],
+        name: json["name"],
+        companyName: json["company_name"],
+        city: json["city"],
+        mobileNo: json["mobile_no"],
+        referanceBy: json["referance_by"],
+        shortBrief: json["short_brief"],
+        ourRemarks: json["our_remarks"],
+        managerStatus: managerStatusValues.map[json["manager_status"]],
+        createdBy: json["created by"],
+        nextReminderDate: json["next_reminder_date"],
+        nextReminderTime: json["next_reminder_time"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "no": no,
-    "date": date,
-    "received_by": receivedBy,
-    "short_order": shortOrder,
-    "call_for": callForValues.reverse[callFor],
-    "name": name,
-    "company_name": companyName,
-    "city": city,
-    "mobile_no": mobileNo,
-    "referance_by": referanceBy,
-    "short_brief": shortBrief,
-    "our_remarks": ourRemarks,
-    "manager_status": managerStatusValues.reverse[managerStatus],
-    "created by": createdBy,
-  };
+        "id": id,
+        "no": no,
+        "date": date,
+        "received_by": receivedBy,
+        "short_order": shortOrder,
+        "call_for": callForValues.reverse[callFor],
+        "name": name,
+        "company_name": companyName,
+        "city": city,
+        "mobile_no": mobileNo,
+        "referance_by": referanceBy,
+        "short_brief": shortBrief,
+        "our_remarks": ourRemarks,
+        "manager_status": managerStatusValues.reverse[managerStatus],
+        "created by": createdBy,
+        "next_reminder_date": nextReminderDate,
+        "next_reminder_time": nextReminderTime,
+      };
 }
 
-enum CallFor {
-  EMPTY,
-  RUNNING_CASE_RELATED_CALL
-}
+enum CallFor { EMPTY, RUNNING_CASE_RELATED_CALL }
 
 final callForValues = EnumValues({
   "": CallFor.EMPTY,
   "Running Case Related Call": CallFor.RUNNING_CASE_RELATED_CALL
 });
 
-enum ManagerStatus {
-  EMPTY,
-  PENDING,
-  RUNNING
-}
+enum ManagerStatus { EMPTY, PENDING, RUNNING }
 
 final managerStatusValues = EnumValues({
   "": ManagerStatus.EMPTY,

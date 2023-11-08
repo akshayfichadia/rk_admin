@@ -53,7 +53,6 @@ class CallDetailsController extends GetxController {
 
   DateTime selectedDate = DateTime.now();
   var date = '2023-01-01'.obs;
-
   selectDate(context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -63,6 +62,52 @@ class CallDetailsController extends GetxController {
         lastDate: DateTime(2025));
     if (picked != null && picked != selectedDate) selectedDate = picked;
     date.value = DateFormat('yyyy-MM-dd').format(selectedDate);
+  }
+
+  TextEditingController reminderDateController = TextEditingController();
+  chooseReminderDate() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: Get.context!,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2030),
+      helpText: "Select Date",
+      cancelText: "Close",
+      confirmText: "Confirm",
+      errorFormatText: "Enter valid date",
+      errorInvalidText: "Enter valid date Range",
+      fieldLabelText: "Enter Date",
+      fieldHintText: "Month/Date/Year",
+      selectableDayPredicate: disableDate,
+    );
+    if (pickedDate != null) {
+      reminderDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+      print("reminderDateController => ${reminderDateController.text}");
+    }
+  }
+
+  bool disableDate(DateTime day) {
+    if ((day.isAfter(DateTime.now().subtract(const Duration(days: 1))) &&
+        day.isBefore(DateTime.now().add(const Duration(days: 365))))) {
+      return true;
+    }
+    return false;
+  }
+
+  TextEditingController reminderTimeController = TextEditingController();
+  chooseReminderTime() async {
+    TimeOfDay? pickedTime = await showTimePicker(
+      context: Get.context!,
+      initialTime: TimeOfDay.now(),
+      initialEntryMode: TimePickerEntryMode.dial,
+    );
+    if (pickedTime != null) {
+      final now = DateTime.now();
+      final dt = DateTime(
+          now.year, now.month, now.day, pickedTime.hour, pickedTime.minute);
+      reminderTimeController.text = DateFormat.Hm().format(dt).toString();
+      print("reminderTimeController => ${reminderTimeController.text}");
+    }
   }
 
   void SubmitNewCall() {
@@ -79,10 +124,12 @@ class CallDetailsController extends GetxController {
           'date': NewDate.toString(),
           'next_date': date.value.toString(),
           'short_details': shortDetailsController.text,
-          'remarks': remarksController.text
+          'remarks': remarksController.text,
+          'next_reminder_date': reminderDateController.text,
+          'next_reminder_time': reminderTimeController.text,
         }, success: (response) {
       _stateStatusRx.value = StateStatus.SUCCESS;
-      Get.back(); 
+      Get.back();
       getHistoryApi();
       Get.showSuccessSnackbar("Call Added Successfully");
     }, error: (e) {

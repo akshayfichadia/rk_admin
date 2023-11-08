@@ -107,6 +107,18 @@ class CallDetailsPage extends GetView<CallDetailsController> {
                           Colors.black,
                           20,
                           FontWeight.bold),
+                      const SizedBox(height: 10),
+                      text(
+                          "Next Reminder Date: ${HomeController.to.testimonialData.data![controller.i.toInt()].nextReminderDate ?? ""}",
+                          Colors.black,
+                          20,
+                          FontWeight.bold),
+                      const SizedBox(height: 10),
+                      text(
+                          "Next Reminder Time: ${HomeController.to.testimonialData.data![controller.i.toInt()].nextReminderTime}",
+                          Colors.black,
+                          20,
+                          FontWeight.bold),
                       const SizedBox(
                         height: 10,
                       ),
@@ -132,69 +144,86 @@ class CallDetailsPage extends GetView<CallDetailsController> {
                               controller.stateStatus.obs ==
                                   StateStatus.SUCCESS.obs ||
                           controller.historyListData.data == null
-                      ?  Center(
+                      ? Center(
                           child: text(
                               'No Calls', Colors.white, 20, FontWeight.bold),
-                        ) : ListView.builder(
-                      itemCount: controller.historyListData.data?.length,
-                      shrinkWrap: true,
-                      reverse: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Container(
-                            width: Get.width,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  text(
-                                      "Date: ${controller.historyListData.data![index].date}",
-                                      Colors.black,
-                                      20,
-                                      FontWeight.bold),
-                                  const SizedBox(
-                                    height: 10,
+                        )
+                      : ListView.builder(
+                          itemCount: controller.historyListData.data?.length,
+                          shrinkWrap: true,
+                          reverse: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Container(
+                                width: Get.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      text(
+                                          "Date: ${controller.historyListData.data![index].date}",
+                                          Colors.black,
+                                          20,
+                                          FontWeight.bold),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      text(
+                                          "Next Date: ${controller.historyListData.data![index].nextDate}",
+                                          Colors.black,
+                                          20,
+                                          FontWeight.bold),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      text(
+                                          "Short Details: ${controller.historyListData.data![index].shortDetails}",
+                                          Colors.black,
+                                          20,
+                                          FontWeight.bold),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      text(
+                                          "Our Remarks: ${controller.historyListData.data![index].ourRemarks}",
+                                          Colors.black,
+                                          20,
+                                          FontWeight.bold),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      text(
+                                          "Reminder Date: ${controller.historyListData.data![index].nextReminderDate}",
+                                          Colors.black,
+                                          20,
+                                          FontWeight.bold),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      text(
+                                          "Reminder Time: ${controller.historyListData.data![index].nextReminderTime}",
+                                          Colors.black,
+                                          20,
+                                          FontWeight.bold),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                    ],
                                   ),
-                                  text(
-                                      "Next Date: ${controller.historyListData.data![index].nextDate}",
-                                      Colors.black,
-                                      20,
-                                      FontWeight.bold),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  text(
-                                      "Short Details: ${controller.historyListData.data![index].shortDetails}",
-                                      Colors.black,
-                                      20,
-                                      FontWeight.bold),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  text(
-                                      "Our Remarks: ${controller.historyListData.data![index].ourRemarks}",
-                                      Colors.black,
-                                      20,
-                                      FontWeight.bold),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        );
-                      })
-                  
-                      : const Center(
-                          child: CircularProgressIndicator(),
-                        )),
+                            );
+                          })
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    )),
               const SizedBox(
                 height: 20,
               ),

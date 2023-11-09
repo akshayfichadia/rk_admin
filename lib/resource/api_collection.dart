@@ -5,6 +5,7 @@ String _subUrl = '$_baseUrl/v1';
 
 // Auth Api
 String loginApi = '$_subUrl/admin-login';
+String logoutApi = '$_subUrl/admin-logout';
 
 String callListApi = '$_subUrl/call-manager/list';
 String historyListApi = '$_subUrl/call-manager-data/list';

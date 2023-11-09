@@ -39,11 +39,12 @@ class HomeController extends GetxController {
   int toDate = DateTime.now().millisecondsSinceEpoch;
 
   getCall() async {
+    // Iterable<CallLogEntry> entrie = await CallLog.get();
     Iterable<CallLogEntry> entries = await CallLog.query(
       dateFrom: fromDate,
       dateTo: toDate,
     );
-    print(entries.length);
+    print("entries => ${entries.length}");
     for (int i = 0; i < entries.length; i++) {
       String? name = entries.toList()[i].name;
       String? number = entries.toList()[i].number;
@@ -53,9 +54,9 @@ class HomeController extends GetxController {
       };
       callLogList.add(callInfo);
       selectedContact.value = callLogList.first;
-      print("callloglist => $callLogList");
-      print("callloglist length => ${callLogList.length}");
     }
+    print("callloglist => $callLogList");
+    print("callloglist length => ${callLogList.length}");
   }
 
   final GetStorageRepository _getStorageRepository;
@@ -71,7 +72,6 @@ class HomeController extends GetxController {
     Iterable<CallLogEntry> entries = await CallLog.get();
     super.onInit();
     name = _getStorageRepository.read(userNameSession);
-
     getCallApi();
     getCall();
   }
@@ -134,6 +134,7 @@ class HomeController extends GetxController {
     }, queryParameters: {
       "admin_id": _getStorageRepository.read(userIdSession).toString()
     }, success: (response) async {
+      print("Obj : $response");
       _callListDataRx.value = await CallListEntity.fromJson(response);
       _stateStatusRx.value = StateStatus.SUCCESS;
     }, error: (e) {
@@ -247,9 +248,28 @@ class HomeController extends GetxController {
     });
   }
 
-  void LogOut() {
-    _getStorageRepository.erase();
-    Get.offNamed(AppRoute.login);
+  logoutApiCall() {
+    _stateStatusRx.value = StateStatus.LOADING;
+    _apiRepository.postApi(
+      logoutApi,
+      headers: {
+        "Authorization": "ixvAdaTLLftJmf3CUhp7BbREZy8ADJ",
+        'Accept': 'application/json',
+      },
+      data: {
+        'device_token': _getStorageRepository.read(tokenSession).toString(),
+      },
+      success: (success) {
+        _stateStatusRx.value = StateStatus.SUCCESS;
+        print(
+            "LogOut Token => ${_getStorageRepository.read(tokenSession).toString()}");
+        _getStorageRepository.erase();
+        Get.offAllNamed(AppRoute.login);
+      },
+      error: (error) {
+        debugPrint("error $error");
+      },
+    );
   }
 
   var interviewKey = GlobalKey<FormState>();

@@ -117,19 +117,33 @@ class Datum {
       };
 }
 
-enum CallFor { EMPTY, RUNNING_CASE_RELATED_CALL }
+enum CallFor {
+  EMPTY,
+  RUNNING_CASE_RELATED_CALL,
+  FIRST_TIME_NEW_CASE_INQUIRY,
+  REPEAT_CALL_FOR_NEW_CASE_INQUIRY,
+  APPOINTMENT_RELATED_CALL,
+  FORMAL_CALL,
+  OTHERS,
+}
 
 final callForValues = EnumValues({
   "": CallFor.EMPTY,
-  "Running Case Related Call": CallFor.RUNNING_CASE_RELATED_CALL
+  "Running Case Related Call": CallFor.RUNNING_CASE_RELATED_CALL,
+  "First Time New Case Inquiry": CallFor.FIRST_TIME_NEW_CASE_INQUIRY,
+  "Repeat Call For New Case Inquiry": CallFor.REPEAT_CALL_FOR_NEW_CASE_INQUIRY,
+  "Appointment Related Call": CallFor.APPOINTMENT_RELATED_CALL,
+  "Formal Call": CallFor.FORMAL_CALL,
+  "Others": CallFor.OTHERS,
 });
 
-enum ManagerStatus { EMPTY, PENDING, RUNNING }
+enum ManagerStatus { EMPTY, PENDING, RUNNING, COMPLETED }
 
 final managerStatusValues = EnumValues({
   "": ManagerStatus.EMPTY,
   "pending": ManagerStatus.PENDING,
-  "running": ManagerStatus.RUNNING
+  "running": ManagerStatus.RUNNING,
+  "completed": ManagerStatus.COMPLETED
 });
 
 class EnumValues<T> {

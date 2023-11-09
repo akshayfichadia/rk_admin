@@ -59,13 +59,14 @@ class LoginController extends GetxController {
       'X-Authorization': 'ixvAdaTLLftJmf3CUhp7BbREZy8ADJ'
     }, success: (response) async {
       _stateStatusRx.value = StateStatus.SUCCESS;
-      print("token => ${response["data"]["token"]}");
       _loginDataRx.value = LoginEntity.fromJson(response);
 
       await getStorageRepository.write(isLoginSession, true);
       await getStorageRepository.write(userNameSession, userData.data!.name);
       await getStorageRepository.write(userIdSession, userData.data!.id);
       await getStorageRepository.write(emailSession, userData.data!.email);
+      await getStorageRepository.write(tokenSession, fCMToken);
+      print("Save Token => ${getStorageRepository.read(tokenSession)}");
       Get.offNamed(AppRoute.home);
     }, error: (e) {
       _stateStatusRx.value = StateStatus.FAILURE;

@@ -25,7 +25,7 @@ class HomePage extends GetView<HomeController> {
               icon: const Icon(Icons.notifications)),
           IconButton(
               onPressed: () {
-                controller.LogOut();
+                controller.logoutApiCall();
               },
               icon: const Icon(Icons.logout))
         ],
@@ -59,8 +59,6 @@ class HomePage extends GetView<HomeController> {
                       physics: NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       itemBuilder: (context, index) {
-                        print(
-                            "controller.testimonialData.data!.length => ${controller.testimonialData.data!.length}");
                         int i = index;
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10),

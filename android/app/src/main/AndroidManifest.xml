@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
    <application
-        android:label="Rk Admin"
+        android:label="RK Admin"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

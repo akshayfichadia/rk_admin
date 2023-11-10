@@ -43,7 +43,7 @@ class Datum {
   String? date;
   String? receivedBy;
   String? shortOrder;
-  CallFor? callFor;
+  String? callFor;
   String? name;
   String? companyName;
   String? city;
@@ -51,7 +51,7 @@ class Datum {
   String? referanceBy;
   String? shortBrief;
   String? ourRemarks;
-  ManagerStatus? managerStatus;
+  String? managerStatus;
   String? createdBy;
   String? nextReminderDate;
   String? nextReminderTime;
@@ -82,7 +82,7 @@ class Datum {
         date: json["date"],
         receivedBy: json["received_by"],
         shortOrder: json["short_order"],
-        callFor: callForValues.map[json["call_for"]],
+        callFor: json["call_for"],
         name: json["name"],
         companyName: json["company_name"],
         city: json["city"],
@@ -90,7 +90,7 @@ class Datum {
         referanceBy: json["referance_by"],
         shortBrief: json["short_brief"],
         ourRemarks: json["our_remarks"],
-        managerStatus: managerStatusValues.map[json["manager_status"]],
+        managerStatus: json["manager_status"],
         createdBy: json["created by"],
         nextReminderDate: json["next_reminder_date"],
         nextReminderTime: json["next_reminder_time"],

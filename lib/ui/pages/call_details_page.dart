@@ -37,19 +37,19 @@ class CallDetailsPage extends GetView<CallDetailsController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       text(
-                          "Caller name: ${HomeController.to.testimonialData.data![controller.i.toInt()].name!}",
+                          "Caller name: ${HomeController.to.listAfterFilter[controller.i.toInt()].name!}",
                           Colors.black,
                           20,
                           FontWeight.bold),
                       const SizedBox(height: 10),
                       text(
-                          "Date: ${HomeController.to.testimonialData.data![controller.i.toInt()].date!}",
+                          "Date: ${HomeController.to.listAfterFilter[controller.i.toInt()].date!}",
                           Colors.black,
                           20,
                           FontWeight.bold),
                       const SizedBox(height: 10),
                       text(
-                          "Call For: ${HomeController.to.testimonialData.data![controller.i.toInt()].callFor}",
+                          "Call For: ${HomeController.to.listAfterFilter[controller.i.toInt()].callFor}",
                           Colors.black,
                           20,
                           FontWeight.bold),
@@ -57,7 +57,7 @@ class CallDetailsPage extends GetView<CallDetailsController> {
                         height: 10,
                       ),
                       text(
-                          "Company Name: ${HomeController.to.testimonialData.data![controller.i.toInt()].companyName!}",
+                          "Company Name: ${HomeController.to.listAfterFilter[controller.i.toInt()].companyName!}",
                           Colors.black,
                           20,
                           FontWeight.bold),
@@ -65,7 +65,7 @@ class CallDetailsPage extends GetView<CallDetailsController> {
                         height: 10,
                       ),
                       text(
-                          "City: ${HomeController.to.testimonialData.data![controller.i.toInt()].city!}",
+                          "City: ${HomeController.to.listAfterFilter[controller.i.toInt()].city!}",
                           Colors.black,
                           20,
                           FontWeight.bold),
@@ -73,7 +73,7 @@ class CallDetailsPage extends GetView<CallDetailsController> {
                         height: 10,
                       ),
                       text(
-                          "Mobile no: ${HomeController.to.testimonialData.data![controller.i.toInt()].mobileNo!}",
+                          "Mobile no: ${HomeController.to.listAfterFilter[controller.i.toInt()].mobileNo!}",
                           Colors.black,
                           20,
                           FontWeight.bold),
@@ -81,7 +81,7 @@ class CallDetailsPage extends GetView<CallDetailsController> {
                         height: 10,
                       ),
                       text(
-                          "Reference By: ${HomeController.to.testimonialData.data![controller.i.toInt()].referanceBy!}",
+                          "Reference By: ${HomeController.to.listAfterFilter[controller.i.toInt()].referanceBy!}",
                           Colors.black,
                           20,
                           FontWeight.bold),
@@ -89,7 +89,7 @@ class CallDetailsPage extends GetView<CallDetailsController> {
                         height: 10,
                       ),
                       text(
-                          "Short brief: ${HomeController.to.testimonialData.data![controller.i.toInt()].shortBrief!}",
+                          "Short brief: ${HomeController.to.listAfterFilter[controller.i.toInt()].shortBrief!}",
                           Colors.black,
                           20,
                           FontWeight.bold),
@@ -97,25 +97,25 @@ class CallDetailsPage extends GetView<CallDetailsController> {
                         height: 10,
                       ),
                       text(
-                          "Our remarks: ${HomeController.to.testimonialData.data![controller.i.toInt()].ourRemarks!}",
+                          "Our remarks: ${HomeController.to.listAfterFilter[controller.i.toInt()].ourRemarks!}",
                           Colors.black,
                           20,
                           FontWeight.bold),
                       const SizedBox(height: 10),
                       text(
-                          "Manager status: ${HomeController.to.testimonialData.data![controller.i.toInt()].managerStatus ?? ""}",
+                          "Manager status: ${HomeController.to.listAfterFilter[controller.i.toInt()].managerStatus ?? ""}",
                           Colors.black,
                           20,
                           FontWeight.bold),
                       const SizedBox(height: 10),
                       text(
-                          "Next Reminder Date: ${HomeController.to.testimonialData.data![controller.i.toInt()].nextReminderDate ?? ""}",
+                          "Next Reminder Date: ${HomeController.to.listAfterFilter[controller.i.toInt()].nextReminderDate ?? ""}",
                           Colors.black,
                           20,
                           FontWeight.bold),
                       const SizedBox(height: 10),
                       text(
-                          "Next Reminder Time: ${HomeController.to.testimonialData.data![controller.i.toInt()].nextReminderTime}",
+                          "Next Reminder Time: ${HomeController.to.listAfterFilter[controller.i.toInt()].nextReminderTime}",
                           Colors.black,
                           20,
                           FontWeight.bold),

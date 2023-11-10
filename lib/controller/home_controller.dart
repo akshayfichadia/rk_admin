@@ -136,6 +136,7 @@ class HomeController extends GetxController {
     }, success: (response) async {
       print("Obj : $response");
       _callListDataRx.value = await CallListEntity.fromJson(response);
+      listAfterFilter.value = _callListDataRx.value.data!;
       _stateStatusRx.value = StateStatus.SUCCESS;
     }, error: (e) {
       _stateStatusRx.value = StateStatus.FAILURE;
@@ -183,6 +184,42 @@ class HomeController extends GetxController {
       finalSelectedCallFor.value = 'others';
     }
     print(finalSelectedCallFor.value.toString());
+  }
+
+  var filterCallListMenu = Rx<List<String>>([
+    'All',
+    'First Time New Case Inquiry',
+    'Repeat Call For New Case Inquiry',
+    'Running Case Related Call',
+    'Appointment Related Call',
+    'Formal Call',
+    'Others'
+  ]);
+
+  RxString selectedFilterCallValue = "All".obs;
+  RxList<Datum> listAfterFilter = RxList();
+
+  onSelectedFilterCallValue(value) {
+    selectedFilterCallValue.value = value;
+    filterAndDisplayData();
+  }
+
+  filterAndDisplayData() {
+    if (selectedFilterCallValue.value == 'All') {
+      listAfterFilter.addAll(testimonialData.data!);
+    } else {
+      List<Datum> tempList = [];
+
+      for (var oldCall in testimonialData.data!) {
+        print("old call => ${oldCall.managerStatus}");
+        if (oldCall.callFor == selectedFilterCallValue.value) {
+          tempList.add(oldCall);
+        }
+      }
+      listAfterFilter.value = tempList;
+      print("listAfterFilter => $listAfterFilter");
+      print("listAfterFilter => ${listAfterFilter.length}");
+    }
   }
 
   var statusListRx = Rx<List<String>>(['Pending', 'Running', 'Completed']);

@@ -12,3 +12,4 @@ String historyListApi = '$_subUrl/call-manager-data/list';
 String reminderCallManagers = '$_subUrl/reminder-call-managers/list';
 String reminderCallManagersComplete =
     '$_subUrl/reminder-call-managers-complete';
+String saveReminderCall = "$_subUrl/save/reminder-call";

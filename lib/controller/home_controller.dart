@@ -33,7 +33,7 @@ class HomeController extends GetxController {
   String getCallNumber() {
     return selectedContact.value!['number'] ?? "";
   }
-
+  
   int fromDate =
       DateTime.now().subtract(Duration(days: 2)).millisecondsSinceEpoch;
   int toDate = DateTime.now().millisecondsSinceEpoch;
@@ -206,7 +206,7 @@ class HomeController extends GetxController {
 
   filterAndDisplayData() {
     if (selectedFilterCallValue.value == 'All') {
-      listAfterFilter.addAll(testimonialData.data!);
+      listAfterFilter.value = testimonialData.data!;
     } else {
       List<Datum> tempList = [];
 

@@ -303,7 +303,7 @@ class AddCallPage extends GetView<HomeController> {
                       text('Reminder Date & Time', Colors.white, 18,
                           FontWeight.normal),
                       SizedBox(
-                        height: 20,
+                        height: 20
                       ),
                       Container(
                         height: 60,

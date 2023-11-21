@@ -39,15 +39,19 @@ class HomePage extends GetView<HomeController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 10,
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  whiteButton('Add New Call', () {
+                    Get.toNamed(AppRoute.addCall);
+                  }, 50, Get.width / 2.3),
+                  whiteButton('Add Reminder', () {
+                    Get.toNamed(AppRoute.addReminder);
+                  }, 50, Get.width / 2.3),
+                ],
               ),
-              whiteButton('Add New Call', () {
-                Get.toNamed(AppRoute.addCall);
-              }, 55, Get.width),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 15),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                 child: Container(

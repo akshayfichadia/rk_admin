@@ -4,7 +4,6 @@ import 'package:rk_admin/controller/reminder_call_manager_controller.dart';
 import 'package:rk_admin/resource/constant.dart';
 import 'package:rk_admin/shared/common/state_status.dart';
 import 'package:rk_admin/ui/widget/all_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ReminderCallManagersPage extends GetView<ReminderCallMAnagersController> {
   const ReminderCallManagersPage({super.key});
@@ -83,6 +82,12 @@ class ReminderCallManagersPage extends GetView<ReminderCallMAnagersController> {
                                                 16,
                                                 FontWeight.normal),
                                             const SizedBox(height: 10),
+                                            text(
+                                                "Notes : ${data.notes}",
+                                                Colors.black,
+                                                16,
+                                                FontWeight.normal),
+                                            const SizedBox(height: 10),
                                           ],
                                         ),
                                         Expanded(
@@ -93,6 +98,10 @@ class ReminderCallManagersPage extends GetView<ReminderCallMAnagersController> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.end,
                                               children: [
+                                                Visibility(
+                                                  visible: data.type == "reminder_call" ?  true : false,
+                                                  child: Icon(Icons.night_shelter,color: Colors.amber,)),
+                                                SizedBox(height: 10,),
                                                 GestureDetector(
                                                   onTap: () async {
                                                     // Uri phoneno = Uri.parse(
@@ -103,9 +112,9 @@ class ReminderCallManagersPage extends GetView<ReminderCallMAnagersController> {
                                                     //   //dailer is not opened
                                                     // }
                                                   },
-                                                  child: const Icon(
+                                                  child:   Icon(
                                                     Icons.call,
-                                                    size: 25,
+                                                    size: 25,color:  greybackColor
                                                   ),
                                                 ),
                                                 const SizedBox(height: 15),

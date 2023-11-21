@@ -11,4 +11,5 @@ abstract class AppRoute {
   static const callDetails = '/callDetails';
   static const addNewCall = '/addNewCall';
   static const reminderCallManagersPage = '/reminderCallManagersPage';
+  static const addReminder="/addreminder";
 }

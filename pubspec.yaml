@@ -50,7 +50,7 @@ dependencies:
   firebase_core:
   firebase_messaging:
   flutter_local_notifications: ^15.1.0+1
-  url_launcher: ^6.2.1
+  url_launcher:
   flutter_launcher_icons:
   permission_handler: ^11.0.1
   contacts_service: ^0.6.3

@@ -4,6 +4,7 @@ import 'package:rk_admin/controller/reminder_call_manager_controller.dart';
 import 'package:rk_admin/resource/constant.dart';
 import 'package:rk_admin/shared/common/state_status.dart';
 import 'package:rk_admin/ui/widget/all_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ReminderCallManagersPage extends GetView<ReminderCallMAnagersController> {
   const ReminderCallManagersPage({super.key});
@@ -58,11 +59,14 @@ class ReminderCallManagersPage extends GetView<ReminderCallMAnagersController> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            text(
-                                                data.callManagerName.toString(),
-                                                Colors.black,
-                                                20,
-                                                FontWeight.bold),
+                                            Container(
+                                              width: Get.width/1.5,
+                                              child: text(
+                                                  data.callManagerName.toString(),
+                                                  Colors.black,
+                                                  20,
+                                                  FontWeight.bold),
+                                            ),
                                             const SizedBox(height: 10),
                                             text(
                                                 "Mobile No. : ${data.mobileNumber}",
@@ -100,17 +104,17 @@ class ReminderCallManagersPage extends GetView<ReminderCallMAnagersController> {
                                               children: [
                                                 Visibility(
                                                   visible: data.type == "reminder_call" ?  true : false,
-                                                  child: Icon(Icons.night_shelter,color: Colors.amber,)),
-                                                SizedBox(height: 10,),
+                                                  child: Icon(Icons.star,color: Colors.amber,)),
+                                                SizedBox(height: 15,),
                                                 GestureDetector(
                                                   onTap: () async {
-                                                    // Uri phoneno = Uri.parse(
-                                                    //     'tel:+919824390121');
-                                                    // if (await launchUrl(phoneno)) {
-                                                    //   //dialer opened
-                                                    // } else {
-                                                    //   //dailer is not opened
-                                                    // }
+                                                    Uri phoneno = Uri.parse(
+                                                        'tel:${data.mobileNumber}');
+                                                    if (await launchUrl(phoneno)) {
+                                                      //dialer opened
+                                                    } else {
+                                                      //dailer is not opened
+                                                    }
                                                   },
                                                   child:   Icon(
                                                     Icons.call,

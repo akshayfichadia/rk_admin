@@ -17,6 +17,9 @@ class ReminderCallMAnagersController extends GetxController {
   final _stateStatusRx = Rx<StateStatus>(StateStatus.INITIAL);
   StateStatus get stateStatus => _stateStatusRx.value;
 
+
+  static ReminderCallMAnagersController get to => Get.find();
+
   @override
   void onInit() {
     getReminderCallManagerApi();

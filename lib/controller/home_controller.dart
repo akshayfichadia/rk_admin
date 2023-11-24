@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:rk_admin/controller/reminder_call_manager_controller.dart';
 import 'package:rk_admin/model/call_list_entity.dart';
 import 'package:rk_admin/model/call_log_list.dart';
 import 'package:rk_admin/resource/api_collection.dart';
@@ -74,6 +75,8 @@ class HomeController extends GetxController {
     name = _getStorageRepository.read(userNameSession);
     getCallApi();
     getCall();
+    ReminderCallMAnagersController.to.getReminderCallManagerApi();
+    print('----------^^^^^^^^^^^ ${ReminderCallMAnagersController.to.callReminderDataList.data!.length}');
   }
 
   TextEditingController dateController = TextEditingController();

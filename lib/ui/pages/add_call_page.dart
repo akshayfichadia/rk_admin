@@ -37,7 +37,6 @@ class AddCallPage extends GetView<HomeController> {
                       ),
                       text('User:  ${controller.name}', Colors.white, 18,
                           FontWeight.normal),
-
                       SizedBox(
                         height: 10,
                       ),
@@ -63,8 +62,18 @@ class AddCallPage extends GetView<HomeController> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
-                                    child: text(controller.date.value,
-                                        Colors.black, 18, FontWeight.normal),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        text(
+                                            controller.date.value,
+                                            Colors.black,
+                                            18,
+                                            FontWeight.normal),
+                                        Icon(Icons.calendar_today_outlined)
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -146,11 +155,6 @@ class AddCallPage extends GetView<HomeController> {
                       ),
                       text('Select Name & Mobile Number ', Colors.white, 18,
                           FontWeight.normal),
-                      // inputField(
-                      //   controller: controller.nameController,
-                      //   validation: controller.isEmptyValid,
-                      // ),
-
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: Container(
@@ -191,7 +195,6 @@ class AddCallPage extends GetView<HomeController> {
                           ),
                         ),
                       ),
-
                       SizedBox(
                         height: 10,
                       ),
@@ -211,11 +214,6 @@ class AddCallPage extends GetView<HomeController> {
                       SizedBox(
                         height: 10,
                       ),
-                      // text('Mobile No.', Colors.white, 18, FontWeight.normal),
-                      // inputField(
-                      //   controller: controller.mobileController,
-                      //   validation: controller.isMobileValid,
-                      // ),
                       SizedBox(
                         height: 10,
                       ),
@@ -302,36 +300,47 @@ class AddCallPage extends GetView<HomeController> {
                       ),
                       text('Reminder Date & Time', Colors.white, 18,
                           FontWeight.normal),
-                      SizedBox(
-                        height: 20
-                      ),
-                      Container(
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        child: Center(
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                              suffixIcon: Icon(Icons.date_range),
-                              hintText: 'Date',
-                              border: InputBorder.none,
-                            ),
-                            controller: controller.dateController,
-                            readOnly: true,
-                            onTap: () async {
-                              controller.chooseDate();
+                      SizedBox(height: 20),
+                      Obx(() => GestureDetector(
+                            onTap: () {
+                              controller.selectReminderDate(context);
                             },
-                          ),
-                        ),
-                      ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Container(
+                                  height: 55,
+                                  width: Get.width / 1.12,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15),
+                                    border: Border.all(
+                                        color: greybackColor, width: 1),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        text(
+                                            controller.reminderDate.value,
+                                            Colors.black,
+                                            18,
+                                            FontWeight.normal),
+                                        Icon(Icons.calendar_today_outlined),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
                       SizedBox(
                         height: 20,
                       ),
                       Container(
-                        height: 60,
+                        height: 55,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15),
@@ -340,7 +349,7 @@ class AddCallPage extends GetView<HomeController> {
                         child: Center(
                           child: TextFormField(
                             decoration: const InputDecoration(
-                              suffixIcon: Icon(Icons.date_range),
+                              suffixIcon: Icon(Icons.timer_outlined),
                               hintText: 'Time',
                               border: InputBorder.none,
                             ),
@@ -355,14 +364,19 @@ class AddCallPage extends GetView<HomeController> {
                       SizedBox(
                         height: 20,
                       ),
-
                       Align(
                         alignment: Alignment.center,
                         child: whiteButton('SUBMIT', () {
                           controller.editValidate();
+                          controller.shortController.clear();
+                          controller.companyController.clear();
+                          controller.cityController.clear();
+                          controller.referenceController.clear();
+                          controller.shortBriefController.clear();
+                          controller.remarksController.clear();
+                          controller.timeController.clear();
                         }, 55, Get.width / 2),
                       ),
-
                       SizedBox(
                         height: 20,
                       ),

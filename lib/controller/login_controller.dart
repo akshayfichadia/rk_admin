@@ -64,6 +64,7 @@ class LoginController extends GetxController {
       await getStorageRepository.write(isLoginSession, true);
       await getStorageRepository.write(userNameSession, userData.data!.name);
       await getStorageRepository.write(userIdSession, userData.data!.id);
+      print("object => ${getStorageRepository.read(userIdSession)}");
       await getStorageRepository.write(emailSession, userData.data!.email);
       await getStorageRepository.write(tokenSession, fCMToken);
       print("Save Token => ${getStorageRepository.read(tokenSession)}");

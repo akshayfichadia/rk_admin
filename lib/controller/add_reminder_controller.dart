@@ -9,6 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:rk_admin/resource/api_collection.dart';
 import 'package:rk_admin/resource/extension.dart';
 import 'package:rk_admin/resource/extensions.dart';
+import 'package:rk_admin/resource/session_string.dart';
 import 'package:rk_admin/shared/api_repository.dart';
 import 'package:rk_admin/shared/get_storage_repository.dart';
 
@@ -63,6 +64,7 @@ class AddReminderController extends GetxController {
           'Accept': 'application/json'
         },
         data: d.FormData.fromMap({
+          "admin_id": storageRepository.read(userIdSession),
           'name': selectedContact!.displayName,
           'contact_no': number.toString(),
           'date': dateController.text.trim(),
@@ -132,9 +134,10 @@ class AddReminderController extends GetxController {
     }
     if (permissionStatus == PermissionStatus.granted) {
       List<Contact> finalList = [];
-      List<Contact> data = await ContactsService.getContacts(withThumbnails: false);
+      List<Contact> data =
+          await ContactsService.getContacts(withThumbnails: false);
       finalList.addAll(data);
-      
+
       print(" final Contacts : ${finalList.length}");
       contactList.value = finalList.obs;
       print("Contacts : ${contactList.length}");

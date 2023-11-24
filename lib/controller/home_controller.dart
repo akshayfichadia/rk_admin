@@ -34,7 +34,7 @@ class HomeController extends GetxController {
   String getCallNumber() {
     return selectedContact.value!['number'] ?? "";
   }
-  
+
   int fromDate =
       DateTime.now().subtract(Duration(days: 2)).millisecondsSinceEpoch;
   int toDate = DateTime.now().millisecondsSinceEpoch;
@@ -67,6 +67,17 @@ class HomeController extends GetxController {
   final _stateStatusRx = Rx<StateStatus>(StateStatus.INITIAL);
   StateStatus get stateStatus => _stateStatusRx.value;
 
+  var lengthOfCallReminder = "".obs;
+
+  getReminderCall() async {
+    ReminderCallMAnagersController.to.getReminderCallManagerApi();
+    await Future.delayed(const Duration(milliseconds: 2000)).then((value) {
+      lengthOfCallReminder.value =
+          "${ReminderCallMAnagersController.to.callReminderDataList.data!.length}";
+      print("lengthOfCallReminder => $lengthOfCallReminder");
+    });
+  }
+
   String name = '';
   @override
   void onInit() async {
@@ -76,29 +87,27 @@ class HomeController extends GetxController {
     getCallApi();
     getCall();
     ReminderCallMAnagersController.to.getReminderCallManagerApi();
-    print('----------^^^^^^^^^^^ ${ReminderCallMAnagersController.to.callReminderDataList.data!.length}');
+    await Future.delayed(const Duration(seconds: 3)).then((value) {
+      lengthOfCallReminder.value =
+          "${ReminderCallMAnagersController.to.callReminderDataList.data!.length}";
+      print("lengthOfCallReminder => $lengthOfCallReminder");
+    });
   }
 
-  TextEditingController dateController = TextEditingController();
-  chooseDate() async {
-    DateTime? pickedDate = await showDatePicker(
-      context: Get.context!,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2030),
-      helpText: "Select Date",
-      cancelText: "Close",
-      confirmText: "Confirm",
-      errorFormatText: "Enter valid date",
-      errorInvalidText: "Enter valid date Range",
-      fieldLabelText: "Enter Date",
-      fieldHintText: "Month/Date/Year",
-      selectableDayPredicate: disableDate,
-    );
-    if (pickedDate != null) {
-      dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-      print("dateController => ${dateController.text}");
-    }
+  DateTime selectedReminderDate = DateTime.now();
+  var reminderDate = DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
+
+  selectReminderDate(context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDatePickerMode: DatePickerMode.day,
+        initialDate: selectedReminderDate,
+        firstDate: DateTime(1949, 8),
+        lastDate: DateTime(2025));
+    if (picked != null && picked != selectedReminderDate)
+      selectedReminderDate = picked;
+    reminderDate.value = DateFormat('dd-MM-yyyy').format(selectedReminderDate);
+    print("reminderDate => $reminderDate");
   }
 
   bool disableDate(DateTime day) {
@@ -242,7 +251,7 @@ class HomeController extends GetxController {
   }
 
   DateTime selectedDate = DateTime.now();
-  var date = '2023-01-01'.obs;
+  var date = DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
 
   selectDate(context) async {
     final DateTime? picked = await showDatePicker(
@@ -252,18 +261,24 @@ class HomeController extends GetxController {
         firstDate: DateTime(1949, 8),
         lastDate: DateTime(2025));
     if (picked != null && picked != selectedDate) selectedDate = picked;
-    date.value = DateFormat('yyyy-MM-dd').format(selectedDate);
+    date.value = DateFormat('dd-MM-yyyy').format(selectedDate);
+    print("date => $date");
   }
 
   void SubmitCall() {
     _stateStatusRx.value = StateStatus.LOADING;
+    String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+    String reminderformattedDate =
+        DateFormat('yyyy-MM-dd').format(selectedReminderDate);
+    print("remider date => $reminderformattedDate");
+
     _apiRepository
         .postApi('https://rklawfirm.in/new/api/v1/save/call-manager', headers: {
       'X-Authorization': 'ixvAdaTLLftJmf3CUhp7BbREZy8ADJ',
       'Accept': 'application/json',
     }, data: {
       'admin_id': _getStorageRepository.read(userIdSession).toString(),
-      'date': date.value.toString(),
+      'date': formattedDate,
       'received_by': _getStorageRepository.read(userNameSession).toString(),
       'short_order': shortController.text,
       'call_for': finalSelectedCallFor.value.toString(),
@@ -275,7 +290,7 @@ class HomeController extends GetxController {
       'short_brief': shortBriefController.text,
       'remarks': remarksController.text,
       'status': finalSelectedStatus.value.toString(),
-      'next_reminder_date': dateController.text,
+      'next_reminder_date': reminderformattedDate,
       'next_reminder_time': timeController.text,
     }, success: (response) {
       _stateStatusRx.value = StateStatus.SUCCESS;

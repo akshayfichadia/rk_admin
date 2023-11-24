@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:rk_admin/model/call_reminder_managers.dart';
 import 'package:rk_admin/resource/api_collection.dart';
 import 'package:rk_admin/resource/extension.dart';
+import 'package:rk_admin/resource/session_string.dart';
 import 'package:rk_admin/shared/api_repository.dart';
 import 'package:rk_admin/shared/common/state_status.dart';
 import 'package:rk_admin/shared/get_storage_repository.dart';
@@ -16,7 +17,6 @@ class ReminderCallMAnagersController extends GetxController {
 
   final _stateStatusRx = Rx<StateStatus>(StateStatus.INITIAL);
   StateStatus get stateStatus => _stateStatusRx.value;
-
 
   static ReminderCallMAnagersController get to => Get.find();
 
@@ -38,7 +38,7 @@ class ReminderCallMAnagersController extends GetxController {
         'X-Authorization': 'ixvAdaTLLftJmf3CUhp7BbREZy8ADJ',
         'Accept': 'application/json',
       },
-      queryParameters: {"admin_id": "3687"},
+      queryParameters: {"admin_id": _getStorageRepository.read(userIdSession)},
       success: (response) {
         _callReminderListDataRx.value = CallReminderManager.fromJson(response);
         // print("responce => $response");

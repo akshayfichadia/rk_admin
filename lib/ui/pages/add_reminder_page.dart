@@ -158,7 +158,7 @@ class AddReminderPage extends GetView<AddReminderController> {
                               decoration: const InputDecoration(
                                   hintText: 'Notes', border: InputBorder.none),
                               controller: controller.notesController,
-                              validator: controller.isFieldValid,
+                             // validator: controller.isFieldValid,
                             ),
                           ),
                         ),

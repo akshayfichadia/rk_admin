@@ -143,7 +143,7 @@ class EditReminderCallPage extends GetView<EditReminderCallController> {
                               decoration: const InputDecoration(
                                   hintText: 'Notes', border: InputBorder.none),
                               controller: controller.notesController,
-                              validator: controller.isFieldValid,
+                             // validator: controller.isFieldValid,
                             ),
                           ),
                         ),

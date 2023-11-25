@@ -85,7 +85,7 @@ class AddCallPage extends GetView<HomeController> {
                       text('Short Order', Colors.white, 18, FontWeight.normal),
                       inputField(
                         controller: controller.shortController,
-                        validation: controller.isEmptyValid,
+                        //validation: controller.isEmptyValid,
                       ),
                       SizedBox(
                         height: 10,
@@ -201,7 +201,7 @@ class AddCallPage extends GetView<HomeController> {
                       text('Company Name', Colors.white, 18, FontWeight.normal),
                       inputField(
                         controller: controller.companyController,
-                        validation: controller.isEmptyValid,
+                        //validation: controller.isEmptyValid,
                       ),
                       SizedBox(
                         height: 10,
@@ -209,7 +209,7 @@ class AddCallPage extends GetView<HomeController> {
                       text('City', Colors.white, 18, FontWeight.normal),
                       inputField(
                         controller: controller.cityController,
-                        validation: controller.isEmptyValid,
+                        //validation: controller.isEmptyValid,
                       ),
                       SizedBox(
                         height: 10,
@@ -220,7 +220,7 @@ class AddCallPage extends GetView<HomeController> {
                       text('Reference By', Colors.white, 18, FontWeight.normal),
                       inputField(
                         controller: controller.referenceController,
-                        validation: controller.isEmptyValid,
+                       // validation: controller.isEmptyValid,
                       ),
                       SizedBox(
                         height: 10,
@@ -228,7 +228,7 @@ class AddCallPage extends GetView<HomeController> {
                       text('Short Brief', Colors.white, 18, FontWeight.normal),
                       inputField(
                         controller: controller.shortBriefController,
-                        validation: controller.isEmptyValid,
+                        //validation: controller.isEmptyValid,
                       ),
                       SizedBox(
                         height: 10,
@@ -236,7 +236,7 @@ class AddCallPage extends GetView<HomeController> {
                       text('Remarks', Colors.white, 18, FontWeight.normal),
                       inputField(
                         controller: controller.remarksController,
-                        validation: controller.isEmptyValid,
+                        //validation: controller.isEmptyValid,
                       ),
                       SizedBox(
                         height: 10,

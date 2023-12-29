@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:rk_admin/controller/reminder_call_manager_controller.dart';
 import 'package:rk_admin/model/call_list_entity.dart';
-import 'package:rk_admin/model/call_log_list.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rk_admin/resource/api_collection.dart';
 import 'package:rk_admin/resource/extension.dart';
 import 'package:rk_admin/resource/extensions.dart';
@@ -79,6 +79,7 @@ class HomeController extends GetxController {
   }
 
   String name = '';
+
   @override
   void onInit() async {
     Iterable<CallLogEntry> entries = await CallLog.get();
@@ -86,12 +87,28 @@ class HomeController extends GetxController {
     name = _getStorageRepository.read(userNameSession);
     getCallApi();
     getCall();
+    requestNotificationPermission();
     ReminderCallMAnagersController.to.getReminderCallManagerApi();
     await Future.delayed(const Duration(seconds: 3)).then((value) {
       lengthOfCallReminder.value =
           "${ReminderCallMAnagersController.to.callReminderDataList.data!.length}";
       print("lengthOfCallReminder => $lengthOfCallReminder");
     });
+  }
+
+  requestNotificationPermission() async {
+    var status = await Permission.notification.status;
+    if (status.isDenied) {
+      status = await Permission.notification.request();
+    }
+    if (status.isPermanentlyDenied) {
+      status = await Permission.notification.request();
+    }
+    if (status.isGranted) {
+      print('Notification Permission Granted');
+    } else {
+      print('Notification permission denied');
+    }
   }
 
   DateTime selectedReminderDate = DateTime.now();
@@ -147,7 +164,9 @@ class HomeController extends GetxController {
       "admin_id": _getStorageRepository.read(userIdSession).toString()
     }, success: (response) async {
       print("Obj : $response");
+
       _callListDataRx.value = await CallListEntity.fromJson(response);
+      print("testimonialData => ${testimonialData.data}");
       listAfterFilter.value = _callListDataRx.value.data!;
       _stateStatusRx.value = StateStatus.SUCCESS;
     }, error: (e) {

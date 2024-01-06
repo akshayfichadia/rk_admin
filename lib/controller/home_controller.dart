@@ -96,7 +96,8 @@ class HomeController extends GetxController {
 
   DateTime selectedReminderDate = DateTime.now();
   var reminderDate = DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
-
+    
+  TextEditingController reminderDateController = TextEditingController();
   selectReminderDate(context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -107,6 +108,7 @@ class HomeController extends GetxController {
     if (picked != null && picked != selectedReminderDate)
       selectedReminderDate = picked;
     reminderDate.value = DateFormat('dd-MM-yyyy').format(selectedReminderDate);
+    reminderDateController.text = reminderDate.value;
     print("reminderDate => $reminderDate");
   }
 
@@ -252,7 +254,7 @@ class HomeController extends GetxController {
 
   DateTime selectedDate = DateTime.now();
   var date = DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
-
+  TextEditingController dateController = TextEditingController();
   selectDate(context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -262,6 +264,7 @@ class HomeController extends GetxController {
         lastDate: DateTime(2025));
     if (picked != null && picked != selectedDate) selectedDate = picked;
     date.value = DateFormat('dd-MM-yyyy').format(selectedDate);
+    dateController.text = date.value;
     print("date => $date");
   }
 
@@ -294,9 +297,16 @@ class HomeController extends GetxController {
       'next_reminder_time': timeController.text,
     }, success: (response) {
       _stateStatusRx.value = StateStatus.SUCCESS;
-      Get.back();
-      Get.showSuccessSnackbar("Call Added Successfully");
-      getCallApi();
+      print("object : $response");
+      if(response["success"] == true){
+        Get.back();
+        Get.showSuccessSnackbar("Call Added Successfully");
+        getCallApi();
+      }
+      else{
+        Get.showErrorSnackbar("${response['message']}");
+        
+      }
     }, error: (e) {
       _stateStatusRx.value = StateStatus.FAILURE;
       Get.showErrorSnackbar(e!.message);

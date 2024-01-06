@@ -155,24 +155,26 @@ extension WidgetExtensions on Widget {
     String? labelText,
     int maxLines = 1,
     bool obscureText = false,
-    InkWell? inkWell,
+    Widget? suffixIcon,
     FormFieldValidator<String>? validation,
     bool? editable,
     bool readonly = false,
-
+    void Function()? onTap,
   }) =>
       Padding(
         padding: const EdgeInsets.only(top:5,bottom: 2),
         child: TextFormField(
-
           readOnly: readonly,
           controller: controller,
           obscureText: obscureText,
           keyboardType: keyboardType,
           maxLength: maxLength,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           // style: TextStyle(color: loginBox),
           maxLines: maxLines,
           onChanged: onChanged,
+          onTap: onTap,
+          scrollPadding: EdgeInsets.zero,
           enabled: editable,
           decoration: InputDecoration(
             counterText: "",
@@ -203,8 +205,9 @@ extension WidgetExtensions on Widget {
             hintText: hintText,
             suffixIcon: Padding(
               padding: const EdgeInsets.all(7.0),
-              child: inkWell,
+              child: suffixIcon,
             ),
+            contentPadding: EdgeInsets.fromLTRB(15, 2, 15, 0)
             // prefixIcon: Padding(
             //   padding: const EdgeInsets.all(7.0),
             //   child: inkWell,
@@ -372,10 +375,10 @@ extension WidgetExtensions on Widget {
     FormFieldValidator<String>? validation,
     bool? editable,
     bool readonly = false,
-
+    Widget? suffixIcon
   }) =>
       Padding(
-        padding: const EdgeInsets.only(top:5,bottom: 2),
+        padding: const EdgeInsets.only(top:1,bottom: 2),
         child: TextFormField(
 
           readOnly: readonly,
@@ -390,6 +393,7 @@ extension WidgetExtensions on Widget {
           decoration: InputDecoration(
             counterText: "",
             border: InputBorder.none,
+            suffix: suffixIcon,
             hintStyle: TextStyle(color: Colors.grey,fontFamily: "futur"),
             filled: true,
             focusedBorder: OutlineInputBorder(

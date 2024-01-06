@@ -40,10 +40,11 @@ class ReminderCallMAnagersController extends GetxController {
       },
       queryParameters: {"admin_id": _getStorageRepository.read(userIdSession)},
       success: (response) {
+         _stateStatusRx.value = StateStatus.SUCCESS;
         _callReminderListDataRx.value = CallReminderManager.fromJson(response);
         // print("responce => $response");
         // print("callRemiderData => $callReminderDataList");
-        _stateStatusRx.value = StateStatus.SUCCESS;
+       
       },
       error: (e) {
         _stateStatusRx.value = StateStatus.FAILURE;

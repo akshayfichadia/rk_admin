@@ -214,7 +214,7 @@ class HomePage extends GetView<HomeController> {
                                                   height: 10,
                                                 ),
                                                 text(
-                                                    item.companyName!,
+                                                    item.companyName ?? "-",
                                                     Colors.black,
                                                     20,
                                                     FontWeight.bold),

@@ -67,9 +67,7 @@ class HomePage extends GetView<HomeController> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 10,
-                ),
+                SizedBox(width: 10),
                 // IconButton(
                 //     onPressed: () {
                 //       Get.toNamed(AppRoute.reminderCallManagersPage);
@@ -156,13 +154,9 @@ class HomePage extends GetView<HomeController> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height: 20),
                     text('Old Calls', Colors.white, 18, FontWeight.w700),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height: 20),
                     Obx(
                       () => controller.stateStatus.obs ==
                               StateStatus.SUCCESS.obs
